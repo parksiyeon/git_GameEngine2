@@ -10,40 +10,38 @@ using UnityEngine.XR.WSA;
 public class PlayerControl : MonoBehaviour
 {
     public float speed;
+    public float backStep;
 
-    float hAxis;
-    float vAxis;
-
-
-    Vector3 moveVec;
+    float h;
+    float v;
 
 
-    private void Awake()
-    {
-     
+    Vector3 moveVec = Vector3.zero;
 
-    }
-
-    void Start()
-    {
-        
-    }
+    CharacterController playerController;
 
     private void Update()
     {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
 
-        moveVec = new Vector3(hAxis, 0, vAxis).normalized;
-
-        transform.position += moveVec * speed * Time.deltaTime;
+        transform.Translate(new Vector3(h, 0, v) * speed * Time.deltaTime);
+        transform.Rotate(new Vector3(0, Input.GetAxis("Mouse X"), 0));
     }
 
+    //private void Update()
+    //{
+    //    hAxis = Input.GetAxisRaw("Horizontal");
+    //    vAxis = Input.GetAxisRaw("Vertical");
 
-    private void LateUpdate()
-    {
-        
-    }
+    //    moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+
+    //    transform.position += moveVec * speed * Time.deltaTime;
+
+    //    transform.LookAt(transform.position + moveVec);
+    //}
+
+
 
 
 }

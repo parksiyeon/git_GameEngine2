@@ -4,27 +4,38 @@ using UnityEngine;
 
 public class CameraControl : MonoBehaviour
 {
-    public Transform target;
-    private Vector3 offset;
-    private Vector3 velos;
+    //public Transform target;
+    //public Vector3 offset;
 
-    // Start is called before the first frame update
-    void Start()
+    //public float sensitivity = 400f;
+
+    //float rotationX = 0.0f;
+    //float rotationY = 0.0f;
+
+
+    public float sensitivity = 500f; //감도 설정
+    float rotationX = 0.0f;  //x축 회전값
+    float rotationY = 0.0f;  //z축 회전값
+
+    private void Update()
     {
-        offset = new Vector3(0f, 1f, -5f);
-        velos = Vector3.zero;
+        Mouse();
     }
-
-    // Update is called once per frame
-    void Update()
+    void Mouse()
     {
-        transform.LookAt(target.localPosition);
+        float x = Input.GetAxis("Mouse X");
+        float y = Input.GetAxis("Mouse Y");
+        rotationX += x * sensitivity * Time.deltaTime;
+        rotationY += y * sensitivity * Time.deltaTime;
 
-        Vector3 targetPosition = target.TransformPoint(new Vector3(0, 5, -10));
-
-        transform.localPosition = Vector3.SmoothDamp(transform.localPosition, targetPosition, ref velos, 0.2f);
-
-        //transform.localPosition = Vector3.Lerp(transform.localPosition, target.localPosition + offset , 0.5f);
-        // 원래 위치, 목표 위치, t ??
+        if (rotationY > 30)
+        {
+            rotationY = 30;
+        }
+        else if (rotationY < -30)
+        {
+            rotationY = -30;
+        }
+        transform.eulerAngles = new Vector3(-rotationY, rotationX, 0.0f);
     }
 }
